@@ -25,6 +25,11 @@ answered (and note the answer inline or link to where it's recorded).
   phone, address), or only membership IDs and purchase history?
 - [ ] Who at Meridian should review outputs before anything goes to
   the board or outside the core team?
+- [ ] (For Workshop 2) Whole Foods and Bristol Farms are both opening
+  specialty-format stores in Southern California this year — is
+  Dana aware of any competing specialty/premium grocer already
+  operating or planning to open near the Pasadena site we're
+  evaluating? (See [wiki/analyses/specialty-grocer-openings.md](../wiki/analyses/specialty-grocer-openings.md).)
 
 ## Requesting & receiving
 

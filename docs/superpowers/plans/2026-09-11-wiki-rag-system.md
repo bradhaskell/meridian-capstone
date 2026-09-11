@@ -10,6 +10,8 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-11-wiki-rag-system-design.md`
 
+**Status:** All 6 tasks complete. Final whole-branch review found 5 Important + 6 Minor findings; one fix wave addressed all 5 Important (guard-scope gaps, log format, SKILL.md documentation drift) plus the content-accuracy Minors; re-review confirmed all addressed, two low-severity residuals parked. Merged to `main` directly (no feature branch was used, by explicit choice).
+
 ## Global Constraints
 
 - No API calls, no embeddings, no vector database, no `.env`/API keys — the agent invoking the skill is the entire retrieval+generation mechanism.
@@ -30,7 +32,7 @@
 **Interfaces:**
 - Produces: a skill named `wiki`, invoked as `Skill({skill: "wiki", args: "<subcommand> [question]"})` where subcommand is `init`, `ingest`, `query`, or `lint`. All later tasks consume this.
 
-- [ ] **Step 1: Write the skill file**
+- [x] **Step 1: Write the skill file**
 
 ```markdown
 ---
@@ -215,7 +217,7 @@ If the user asks you to fix any finding, make the edit and append a
 `## [DATE] lint-fix | <what changed>` line to `log.md`.
 ```
 
-- [ ] **Step 2: Verify the file**
+- [x] **Step 2: Verify the file**
 
 Read `.claude/skills/wiki/SKILL.md` back and confirm:
 - Frontmatter has `name: wiki` and a `description:` line
@@ -226,7 +228,7 @@ Read `.claude/skills/wiki/SKILL.md` back and confirm:
 **Done looks like:** the file exists with all four subcommand sections and the exact guard list.
 **How to check:** open `.claude/skills/wiki/SKILL.md` and read it top to bottom against the checklist in Step 2.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add .claude/skills/wiki/SKILL.md
@@ -244,18 +246,18 @@ git commit -m "feat: add wiki skill definition (init/ingest/query/lint)"
 - Consumes: the `init` section of `.claude/skills/wiki/SKILL.md` from Task 1.
 - Produces: the `wiki/` directory structure that Tasks 3–6 read and write into.
 
-- [ ] **Step 1: Run init**
+- [x] **Step 1: Run init**
 
 Invoke `Skill({skill: "wiki", args: "init"})`. If the harness reports the skill isn't recognized in this session (it may not appear in the skill listing established at session start), open `.claude/skills/wiki/SKILL.md` directly, read its `init` section, and carry out those exact steps by hand — the resulting files must be identical either way.
 
-- [ ] **Step 2: Verify the structure**
+- [x] **Step 2: Verify the structure**
 
 List `wiki/` and confirm every file/folder from the Files section above exists, and that `index.md`, `log.md`, `conventions.md`, `overview.md` each match the templates in `SKILL.md`'s `init` section exactly (substituting today's date in `log.md`).
 
 **Done looks like:** `wiki/` contains `index.md`, `log.md`, `conventions.md`, `overview.md`, and four empty subfolders each holding a `.gitkeep`, with content matching the `init` templates.
 **How to check:** run a directory listing of `wiki/` and read each of the four top-level files.
 
-- [ ] **Step 3: Commit**
+- [x] **Step 3: Commit**
 
 ```bash
 git add wiki/
@@ -274,17 +276,17 @@ git commit -m "chore: scaffold wiki/ structure via /wiki init"
 - Consumes: the `ingest` section of `SKILL.md`, and the `wiki/` skeleton from Task 2.
 - Produces: populated wiki content that Tasks 4–6 query, lint, and extend.
 
-- [ ] **Step 1: Run ingest**
+- [x] **Step 1: Run ingest**
 
 Invoke `Skill({skill: "wiki", args: "ingest"})`, with the same manual fallback as Task 2 Step 1 if the skill isn't recognized in-session. This should process `raw/client-brief.md` and `docs/data-handling-checklist.md` (the only two `.md`/`.txt` files under `raw/`/`docs/` right now).
 
-- [ ] **Step 2: Verify source pages**
+- [x] **Step 2: Verify source pages**
 
 Read `wiki/sources/client-brief.md` and `wiki/sources/data-handling-checklist.md`. Confirm each:
 - Cites the correct raw path (`raw/client-brief.md` / `docs/data-handling-checklist.md`)
 - Has an accurate summary and key points — spot-check against the actual source file, don't just trust it looks plausible
 
-- [ ] **Step 3: Verify cascade, index, log, and overview**
+- [x] **Step 3: Verify cascade, index, log, and overview**
 
 - Confirm any `entities/`/`concepts/` pages created are warranted (they name something the client brief or checklist actually discusses) and each has a `## Mentioned in` link back to the right source page.
 - Confirm `wiki/index.md` lists both source pages under `## Sources`, plus any entity/concept pages under their headings, each with an accurate one-line summary.
@@ -294,7 +296,7 @@ Read `wiki/sources/client-brief.md` and `wiki/sources/data-handling-checklist.md
 **Done looks like:** two accurate source pages exist, `index.md`/`log.md`/`overview.md` all reflect them, and any cascade pages are real and correctly cross-linked.
 **How to check:** read every file touched and compare its claims against `raw/client-brief.md` and `docs/data-handling-checklist.md` directly.
 
-- [ ] **Step 4: Commit**
+- [x] **Step 4: Commit**
 
 ```bash
 git add wiki/
@@ -313,7 +315,7 @@ git commit -m "feat: ingest client brief and data handling checklist into wiki"
 - Consumes: the `ingest` section of `SKILL.md` (guard logic) and the populated wiki from Task 3.
 - Produces: a log entry proving the guard fires; no other lasting artifact.
 
-- [ ] **Step 1: Create a guard-triggering scratch file**
+- [x] **Step 1: Create a guard-triggering scratch file**
 
 Write `raw/pos_extract_test.md` with placeholder content, e.g.:
 
@@ -324,18 +326,18 @@ This file exists only to verify the wiki ingest guard skips it. Not
 real data.
 ```
 
-- [ ] **Step 2: Run ingest again**
+- [x] **Step 2: Run ingest again**
 
 Invoke `Skill({skill: "wiki", args: "ingest"})` (or the manual fallback).
 
-- [ ] **Step 3: Verify the skip**
+- [x] **Step 3: Verify the skip**
 
 Confirm:
 - `wiki/log.md` has a new `## [DATE] skip |` line naming `raw/pos_extract_test.md` and citing the matched rule (its filename contains both `pos` and `extract`)
 - No file under `wiki/sources/`, `wiki/entities/`, or `wiki/concepts/` references this file
 - `wiki/index.md` has no entry for it
 
-- [ ] **Step 4: Delete the scratch file**
+- [x] **Step 4: Delete the scratch file**
 
 ```bash
 rm "raw/pos_extract_test.md"
@@ -344,7 +346,7 @@ rm "raw/pos_extract_test.md"
 **Done looks like:** the guard skipped the file and logged why, and no wiki page was created from it.
 **How to check:** read the new `log.md` line, and grep `wiki/` for `pos_extract_test` — it should appear nowhere except that one log line.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add wiki/log.md
@@ -362,17 +364,17 @@ git commit -m "test: verify NDA ingest guard skips a restricted-looking filename
 **Interfaces:**
 - Consumes: the `query` section of `SKILL.md` and the populated wiki from Task 3.
 
-- [ ] **Step 1: Ask an in-scope question**
+- [x] **Step 1: Ask an in-scope question**
 
 Invoke `Skill({skill: "wiki", args: "query What data is restricted from AI tools?"})`.
 **Expected:** an answer naming loyalty and labor data as restricted, citing `wiki/sources/data-handling-checklist.md` (or a concept page derived from it).
 
-- [ ] **Step 2: Ask another in-scope question**
+- [x] **Step 2: Ask another in-scope question**
 
 Invoke `Skill({skill: "wiki", args: "query What is Meridian's annual revenue?"})`.
 **Expected:** an answer citing roughly $78M, citing `wiki/sources/client-brief.md`.
 
-- [ ] **Step 3: Ask an out-of-scope question**
+- [x] **Step 3: Ask an out-of-scope question**
 
 Invoke `Skill({skill: "wiki", args: "query What is the capital of France?"})`.
 **Expected:** the answer states this isn't covered by the wiki, and does not answer from outside knowledge.
@@ -391,24 +393,21 @@ No commit — this task is read-only (skip filing anything to `wiki/analyses/` f
 **Interfaces:**
 - Consumes: the `lint` section of `SKILL.md` and the full wiki state after Tasks 3–4.
 
-- [ ] **Step 1: Run lint**
+- [x] **Step 1: Run lint**
 
 Invoke `Skill({skill: "wiki", args: "lint"})`.
 
-- [ ] **Step 2: Review the report**
+- [x] **Step 2: Review the report**
 
 Given the wiki only has two real sources at this point, expect zero or very few findings. Confirm any finding reported is real (e.g. a genuine orphan page), not a false positive.
 
-- [ ] **Step 3: Fix only if something real is found**
+- [x] **Step 3: Fix only if something real is found**
 
 If a finding is real, ask for confirmation, apply the fix, and append a `## [DATE] lint-fix |` line to `wiki/log.md`.
 
 **Done looks like:** lint runs without error and produces an accurate report (few or no findings expected at this size).
 **How to check:** read the lint output; for any finding, verify it by opening the pages named and confirming the problem is real.
 
-- [ ] **Step 4: Commit (only if Step 3 made changes)**
+**Result:** lint ran clean (no Critical/Important findings); one Minor observation (a "loyalty program" cascade page could be defensible) was reviewed and parked rather than fixed — `SKILL.md`'s "create only what's warranted" already covers the call. No fix needed, so Step 4 did not apply.
 
-```bash
-git add wiki/
-git commit -m "fix: address wiki lint finding(s)"
-```
+- [x] **Step 4: Commit (only if Step 3 made changes)** — N/A, no fix was made in Step 3.

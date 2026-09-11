@@ -28,3 +28,11 @@ specialty/fresh-format grocers are gaining share from traditional
 chains, big-box players are reinvesting in stores, and grocery-anchored
 real estate investment is surging, all relevant backdrop as Meridian
 weighs further expansion.
+
+For the Pasadena decision specifically, see
+[`wiki/concepts/retail-site-selection.md`](concepts/retail-site-selection.md):
+a structured 10-step location-evaluation framework (network mapping,
+competitive effects, customer-profile matching, physical/financial
+feasibility, grocery-specific weighting on parking and trade-area
+saturation, and post-opening validation) that maps closely onto the
+kind of analysis Dana wants before committing to the site.
