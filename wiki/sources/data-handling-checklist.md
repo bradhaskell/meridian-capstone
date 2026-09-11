@@ -1,0 +1,16 @@
+# Data handling checklist: Meridian Markets
+
+Source: `docs/data-handling-checklist.md`
+
+## Summary
+
+An internal team checklist for requesting, storing, and using Meridian Markets' data safely, grounded in the NDA terms from the client brief. It carries a running list of open questions for Dana Okafor, checklists for requesting/receiving and storing data, a data classification table for what may go into AI tools, and rules for presenting/sharing outputs. Its central, non-negotiable rule (restated from the client brief): customer records and employee data never go into any AI tool, in full or as excerpts.
+
+## Key points
+
+- Seven open questions for Dana are tracked, including: whether raw POS data carries customer/loyalty identifiers or is anonymized; whether there's a data dictionary/schema for the POS extract (and whether the schema changed with last spring's POS migration); IT contacts besides Marcus; the expected format for the 3-week board preview; data storage/retention expectations; whether loyalty data includes direct PII (name/email/phone/address) or only membership IDs; and who at Meridian should review outputs before they reach the board (## Open questions for Dana).
+- Before requesting data: sign the NDA first, scope the extract request to only what's needed, confirm it arrives via a secure channel, log what was received (dataset, date range, format), confirm a data dictionary/schema comes with it, and move restricted files to secure storage immediately on receipt (## Requesting & receiving).
+- Restricted data (loyalty, labor) must never sit in a public/broadly-shared cloud folder or be committed to the git repo, even temporarily; access is limited to team members actively working with it; working copies get cleaned up when no longer needed; a retention/deletion plan should be agreed with Dana for after the engagement (## Storing).
+- The AI-tool data classification table sets four tiers: Loyalty membership & purchase history and Labor scheduling & hours are **Restricted** (never in any AI tool, in full or excerpted); raw/line-item POS transactions are **Conditional** (restricted until aggregated to store+week totals, since line items can join back to loyalty IDs); Sales totals by store & week and Store attributes (sqft, opening date, lease terms) are **Safe**, explicitly cleared by Dana (## AI tools).
+- Before pasting or uploading anything into an AI tool: identify the source dataset(s), check the classification table, stop entirely if Restricted, confirm aggregation (and absence of customer/loyalty ID columns) if Conditional, and even for Safe data spot-check the actual rows/columns being used — and ask the team lead or Dana rather than assuming "probably fine" (## AI tools).
+- When presenting or sharing outputs: every figure in a dashboard, deck, or export must be an aggregate (store/week level or coarser), never row-level; dashboard drill-downs/filters must not allow reaching an individual customer or employee record; screenshots/exports get checked for hidden columns or tooltips; board/external materials get reviewed by the team first; and sharing links get checked for correct permissions before sending (## Presenting & sharing).
