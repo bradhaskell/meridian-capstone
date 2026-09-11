@@ -28,6 +28,8 @@ Create, if missing:
   ```markdown
   # Wiki index
 
+  See [Overview](overview.md) for a synthesis of the project.
+
   ## Sources
 
   ## Entities
@@ -57,9 +59,12 @@ Create, if missing:
   - `entities/` = people and organizations. `concepts/` = abstract
     ideas, terms, policies. `analyses/` = synthesized answers to
     complex questions, filed back only with the user's confirmation.
-  - Never ingest a file the NDA guard flags (see this skill's
-    `ingest` section) — data classification is documented in
-    `docs/data-handling-checklist.md`.
+  - Never ingest a file the NDA guard flags (see the `ingest` section
+    of `.claude/skills/wiki/SKILL.md`) — data classification is
+    documented in `docs/data-handling-checklist.md`.
+  - Files under `docs/superpowers/**` are excluded from ingest
+    entirely — they're this wiki-building project's own process
+    artifacts, not project knowledge (see `.claude/skills/wiki/SKILL.md`).
   - Keep `index.md` and `log.md` up to date with every change.
   ```
 - `wiki/overview.md` — start with:
@@ -78,26 +83,38 @@ overwrites existing content.
 
 ## `ingest`
 
-For every `*.md` and `*.txt` file under `raw/` and `docs/`
-(recursively), in this order:
+Scan ALL files under `raw/` and `docs/` (recursively) — every file,
+regardless of extension — excluding anything under
+`docs/superpowers/**` (match this exclusion against both `/` and `\`
+path separators, since this repo runs on Windows). Those files are
+this wiki-building project's own process artifacts (specs/plans), not
+project knowledge, so they are never enumerated in the first place and
+never logged.
+
+For each remaining file, in this order:
 
 1. **NDA guard.** Skip the file — without opening or reading its
    content — if:
    - its extension is anything other than `.md` or `.txt`, or
    - its path or filename, lowercased, contains any of: `extract`,
-     `pos`, `loyalty`, `labor`, `transaction`, `payroll`, `employee`,
-     `customer`, or
-   - its path is under `docs/superpowers/**` — these are this
-     wiki-building project's own process artifacts (specs/plans), not
-     project knowledge.
+     the standalone word `pos` (matched as a whole word or path
+     segment, not as a substring of a longer word — so `proposal.md`
+     or `position.md` do NOT match), `loyalty`, `labor`,
+     `transaction`, `payroll`, `employee`, `customer`, `member`,
+     `schedule`, `shift`, `timesheet`, `hours`, `roster`, `staff`,
+     `pii`, or `personal`.
 
    For a skipped file, append to `log.md`:
    `## [DATE] skip | <path> — matched guard rule: <rule text>`
-   and do not create or touch any wiki page for it.
+   and do not create or touch any wiki page for it. If a file is
+   still guard-flagged on a later run, it will get another `skip` log
+   line each time ingest runs — this repeat logging is expected and
+   by design, not a bug.
 
 2. **Already-ingested check.** If `log.md` already has an `ingest`
-   line naming this exact path and the file's content hasn't changed
-   since, skip it silently (no new log line).
+   line naming this exact path (the log format is
+   `## [DATE] ingest | <path> | <Title>`) and the file's content
+   hasn't changed since, skip it silently (no new log line).
 
 3. **Summarize.** Read the file. Write or update
    `wiki/sources/<slug>.md`:
@@ -138,7 +155,7 @@ For every `*.md` and `*.txt` file under `raw/` and `docs/`
    it in a few sentences.
 
 7. **Log it.** Append to `log.md`:
-   `## [DATE] ingest | <Title>`
+   `## [DATE] ingest | <path> | <Title>`
 
 ## `query <question>`
 
@@ -173,7 +190,10 @@ anything without asking first):
   or `analyses/` with no link pointing to it from `index.md` or any
   other page
 - A name/term referenced in at least two pages that has no page of
-  its own in `entities/` or `concepts/`
+  its own in `entities/` or `concepts/` — unless its coverage in
+  existing pages is already adequate; use judgment, don't force a
+  page for the sake of the rule (this mirrors `ingest`'s own "create
+  only what's warranted" principle)
 - Any page that appears to contain row-level personal data — names
   paired with contact info, individual schedules, or individual
   transaction/loyalty records — as a backstop in case something

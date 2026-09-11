@@ -4,7 +4,7 @@ Meridian Markets is a specialty grocery chain with fourteen stores
 across Los Angeles, Orange, and Ventura counties (~$78M annual
 revenue, ~620 employees), grown from six stores in five years by
 taking over leases in neighborhoods other chains had left. This
-project is an MSBA capstone engagement kicked off by a brief from
+project is an LMU MSBA workshop engagement kicked off by a brief from
 Dana Okafor, Meridian's VP of Operations: build a dashboard analyzing
 sales performance by store and category, partly to support a decision
 on a likely next location (Pasadena) and partly to make better use of

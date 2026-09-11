@@ -1,5 +1,7 @@
 # Wiki index
 
+See [Overview](overview.md) for a synthesis of the project.
+
 ## Sources
 
 - [Client brief: Meridian Markets](sources/client-brief.md) — Dana Okafor's engagement brief: who Meridian Markets is, what dashboard they want, what data they have, and the NDA terms.
