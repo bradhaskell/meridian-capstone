@@ -8,3 +8,4 @@ Append-only. Newest entries at the bottom. One line per action:
 ## [2026-09-11] ingest | Client brief: Meridian Markets
 ## [2026-09-11] ingest | Data handling checklist: Meridian Markets
 ## [2026-09-11] skip | raw/pos_extract_test.md — matched guard rule: path or filename contains `extract` or `pos`
+## [2026-09-11] ingest | raw/icsc-grocery-formats-2026.md | New Grocery Formats, Store Growth and Investment Activity Signal a Sector in Motion

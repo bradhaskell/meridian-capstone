@@ -21,3 +21,10 @@ handling checklist formalizes this into a data classification table
 that also flags raw POS transactions as conditional (safe only once
 aggregated to store + week totals) and clears sales totals and store
 attributes for AI tool use.
+
+For external market context — not Meridian-specific data — see
+[`wiki/concepts/grocery-industry-trends.md`](concepts/grocery-industry-trends.md):
+specialty/fresh-format grocers are gaining share from traditional
+chains, big-box players are reinvesting in stores, and grocery-anchored
+real estate investment is surging, all relevant backdrop as Meridian
+weighs further expansion.
