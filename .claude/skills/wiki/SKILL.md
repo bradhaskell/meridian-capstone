@@ -86,7 +86,10 @@ For every `*.md` and `*.txt` file under `raw/` and `docs/`
    - its extension is anything other than `.md` or `.txt`, or
    - its path or filename, lowercased, contains any of: `extract`,
      `pos`, `loyalty`, `labor`, `transaction`, `payroll`, `employee`,
-     `customer`
+     `customer`, or
+   - its path is under `docs/superpowers/**` — these are this
+     wiki-building project's own process artifacts (specs/plans), not
+     project knowledge.
 
    For a skipped file, append to `log.md`:
    `## [DATE] skip | <path> — matched guard rule: <rule text>`
