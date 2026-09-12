@@ -228,6 +228,11 @@ Read `.claude/skills/wiki/SKILL.md` back and confirm:
 **Done looks like:** the file exists with all four subcommand sections and the exact guard list.
 **How to check:** open `.claude/skills/wiki/SKILL.md` and read it top to bottom against the checklist in Step 2.
 
+**Review notes:**
+- What I asked the AI to do: write the complete `SKILL.md` skill definition (init/ingest/query/lint subcommands, the NDA guard keyword list) verbatim to the plan's template.
+- How I checked its work: read the saved file back line by line against the Step 2 checklist — frontmatter present, all four subcommand sections present, guard list matching the Global Constraints exactly, `query`/`lint` both handling a missing `wiki/`.
+- What I accepted/changed/rejected, and why: accepted as written. Every checklist item matched on the first pass — no gaps found, nothing to send back.
+
 - [x] **Step 3: Commit**
 
 ```bash
@@ -296,6 +301,11 @@ Read `wiki/sources/client-brief.md` and `wiki/sources/data-handling-checklist.md
 **Done looks like:** two accurate source pages exist, `index.md`/`log.md`/`overview.md` all reflect them, and any cascade pages are real and correctly cross-linked.
 **How to check:** read every file touched and compare its claims against `raw/client-brief.md` and `docs/data-handling-checklist.md` directly.
 
+**Review notes:**
+- What I asked the AI to do: run `/wiki ingest` on `raw/client-brief.md` and `docs/data-handling-checklist.md`, producing source pages, cascade entity/concept pages, and updated `index.md`/`log.md`/`overview.md`.
+- How I checked its work: read every generated page and traced individual claims back to the exact source sentence — e.g. the $78M revenue and ~620-employee figures in `wiki/sources/client-brief.md` were checked word-for-word against `raw/client-brief.md`'s "About us" section, and the Restricted/Conditional/Safe classification table in `wiki/sources/data-handling-checklist.md` was checked against `docs/data-handling-checklist.md`'s actual table.
+- What I accepted/changed/rejected, and why: initially rejected as incomplete. The agent correctly skipped ingesting this project's own `docs/superpowers/` plan/spec files, but never updated `SKILL.md` to document that exclusion — leaving the rule un-codified for the next run. Sent back with the finding; accepted once `SKILL.md` was amended with an explicit exclusion bullet and a re-review confirmed it.
+
 - [x] **Step 4: Commit**
 
 ```bash
@@ -345,6 +355,11 @@ rm "raw/pos_extract_test.md"
 
 **Done looks like:** the guard skipped the file and logged why, and no wiki page was created from it.
 **How to check:** read the new `log.md` line, and grep `wiki/` for `pos_extract_test` — it should appear nowhere except that one log line.
+
+**Review notes:**
+- What I asked the AI to do: create a scratch file with a restricted-looking filename (`raw/pos_extract_test.md`), re-run `/wiki ingest`, confirm the NDA guard skipped it and logged why, then delete the scratch file.
+- How I checked its work: read the new `wiki/log.md` line myself and grepped the whole `wiki/` folder for the scratch filename to confirm it appeared nowhere except that one log line — i.e. the file's content was never actually read into any wiki page.
+- What I accepted/changed/rejected, and why: accepted. The guard fired exactly as designed, the skip was logged with the correct matched rule (`extract`/`pos`), and no wiki page referenced the restricted file — nothing to change.
 
 - [x] **Step 5: Commit**
 
